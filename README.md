@@ -1,2 +1,2 @@
 # Plush
-Compiler project
+Compiler project for the new language plush. 
