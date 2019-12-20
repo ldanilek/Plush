@@ -1,8 +1,12 @@
-main: main.rs
-	docker run -it -v ${CURDIR}:${CURDIR} -w ${CURDIR} rust:alpine rustc main.rs
 
-run: main
-	docker run -it -v ${CURDIR}:${CURDIR} -w ${CURDIR} rust:alpine ./main
+main: .docker main.rs
+	docker run -it -v ${CURDIR}:${CURDIR} -w ${CURDIR} plush_dev rustc main.rs
 
-dev: main
-	docker run -it -v ${CURDIR}:${CURDIR} -w ${CURDIR} rust:alpine
+run: .docker main
+	docker run -it -v ${CURDIR}:${CURDIR} -w ${CURDIR} plush_dev ./main
+
+.docker: Dockerfile
+	docker build -t plush_dev . && touch .docker
+
+dev: .docker main
+	docker run -it -v ${CURDIR}:${CURDIR} -w ${CURDIR} plush_dev
